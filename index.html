@@ -174,6 +174,7 @@
         .cubicle.paul::before { background: linear-gradient(90deg, #f4a100, #d89000); }
         .cubicle.rock::before { background: linear-gradient(90deg, #00c853, #00a040); }
         .cubicle.gamer::before { background: linear-gradient(90deg, #9d4edd, #7b2cbf); }
+        .cubicle.hall::before { background: linear-gradient(90deg, #455a64, #37474f); }
         .cubicle.folio::before { background: linear-gradient(90deg, #7c4dff, #6a3de8); }
         
         /* Cubicle divider */
@@ -205,6 +206,7 @@
         .cubicle.paul .agent-info h3 { color: #f4a100; }
         .cubicle.rock .agent-info h3 { color: #00c853; }
         .cubicle.gamer .agent-info h3 { color: #9d4edd; }
+        .cubicle.hall .agent-info h3 { color: #78909c; }
         .cubicle.folio .agent-info h3 { color: #7c4dff; }
         .agent-info .role { color: rgba(255,255,255,0.4); font-size: 10px; }
         
@@ -220,6 +222,7 @@
         .cubicle.paul .workflow { border-color: #f4a100; }
         .cubicle.rock .workflow { border-color: #00c853; }
         .cubicle.gamer .workflow { border-color: #9d4edd; }
+        .cubicle.hall .workflow { border-color: #78909c; }
         .cubicle.folio .workflow { border-color: #7c4dff; }
         
         .workflow-header {
@@ -1344,6 +1347,133 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Hall's Cubicle -->
+                <div class="cubicle hall">
+                    <div class="cubicle-divider left"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin7" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#e8d8c8"/>
+                                        <stop offset="100%" style="stop-color:#d4c4b4"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Desk - darker, more serious -->
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#2d3436"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#1e272e"/>
+                                
+                                <!-- Dual Security Monitors -->
+                                <rect x="20" y="30" width="40" height="32" rx="2" fill="#1a1a1a"/>
+                                <rect x="23" y="33" width="34" height="26" rx="1" fill="#0a1510" class="screen-flicker"/>
+                                <!-- Terminal/logs on screen -->
+                                <g fill="#78909c" opacity="0.8">
+                                    <rect x="26" y="36" width="20" height="1.5" rx="0.5"/>
+                                    <rect x="26" y="40" width="28" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="44" width="24" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="48" width="26" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="52" width="18" height="1.5" rx="0.5" fill="#4caf50"/>
+                                </g>
+                                <rect x="36" y="62" width="8" height="3" fill="#1a1a1a"/>
+                                
+                                <rect x="65" y="30" width="40" height="32" rx="2" fill="#1a1a1a"/>
+                                <rect x="68" y="33" width="34" height="26" rx="1" fill="#0a1015" class="screen-flicker"/>
+                                <!-- Network diagram on screen -->
+                                <g fill="#78909c" opacity="0.7">
+                                    <circle cx="77" cy="42" r="3" fill="none" stroke="#4caf50" stroke-width="1"/>
+                                    <circle cx="92" cy="42" r="3" fill="none" stroke="#78909c" stroke-width="1"/>
+                                    <circle cx="85" cy="52" r="3" fill="none" stroke="#78909c" stroke-width="1"/>
+                                    <line x1="79" y1="44" x2="83" y2="50" stroke="#455a64" stroke-width="0.8"/>
+                                    <line x1="90" y1="44" x2="87" y2="50" stroke="#455a64" stroke-width="0.8"/>
+                                </g>
+                                <rect x="81" y="62" width="8" height="3" fill="#1a1a1a"/>
+                                
+                                <!-- Minimal keyboard -->
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#1a1a1a"/>
+                                
+                                <!-- Character - older, stern, balding -->
+                                <g class="breathe">
+                                    <!-- Body - dark jacket -->
+                                    <rect x="48" y="44" width="30" height="32" rx="4" fill="#1e272e"/>
+                                    <path d="M46 52 Q42 64 46 82 L80 82 Q84 64 80 52 Z" fill="#2d3436"/>
+                                    <!-- Dark collar -->
+                                    <path d="M54 52 L63 58 L72 52" fill="#1a1a1a"/>
+                                    
+                                    <!-- Arms -->
+                                    <ellipse cx="38" cy="62" rx="8" ry="12" fill="url(#skin7)"/>
+                                    <ellipse cx="88" cy="62" rx="8" ry="12" fill="url(#skin7)"/>
+                                    
+                                    <!-- Hands -->
+                                    <ellipse cx="52" cy="84" rx="5" ry="3.5" fill="#d8c8b8" class="typing"/>
+                                    <ellipse cx="74" cy="84" rx="5" ry="3.5" fill="#d8c8b8"/>
+                                    
+                                    <!-- Neck and head -->
+                                    <rect x="56" y="38" width="14" height="12" fill="url(#skin7)"/>
+                                    <ellipse cx="63" cy="26" rx="15" ry="16" fill="url(#skin7)"/>
+                                    
+                                    <!-- Receding hairline - grey -->
+                                    <path d="M50 20 Q55 12 63 10 Q71 12 76 20 Q72 16 63 14 Q54 16 50 20" fill="#6b6b6b"/>
+                                    <path d="M48 22 Q50 20 52 22" fill="#6b6b6b"/>
+                                    <path d="M74 22 Q76 20 78 22" fill="#6b6b6b"/>
+                                    
+                                    <!-- Eyebrows - stern -->
+                                    <path d="M52 20 Q57 17 62 21" fill="none" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M64 21 Q69 17 74 20" fill="none" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes - sharp, observant -->
+                                    <g class="blink" style="animation-delay: 2s">
+                                        <ellipse cx="56" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <ellipse cx="70" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <circle cx="56" cy="27" r="2.5" fill="#37474f"/>
+                                        <circle cx="70" cy="27" r="2.5" fill="#37474f"/>
+                                        <circle cx="56" cy="27" r="1.5" fill="#1a1a1a"/>
+                                        <circle cx="70" cy="27" r="1.5" fill="#1a1a1a"/>
+                                        <circle cx="57.5" cy="25.5" r="1" fill="white" opacity="0.9"/>
+                                        <circle cx="71.5" cy="25.5" r="1" fill="white" opacity="0.9"/>
+                                        <!-- Slight bags under eyes -->
+                                        <path d="M52 29 Q56 30 60 29" fill="none" stroke="#c4b4a4" stroke-width="0.8"/>
+                                        <path d="M66 29 Q70 30 74 29" fill="none" stroke="#c4b4a4" stroke-width="0.8"/>
+                                    </g>
+                                    
+                                    <!-- Nose -->
+                                    <path d="M63 26 Q64 30 63 34" fill="none" stroke="#c4b4a4" stroke-width="1.5"/>
+                                    <path d="M60 35 Q63 37 66 35" fill="none" stroke="#b4a494" stroke-width="1"/>
+                                    
+                                    <!-- Mouth - thin, serious line -->
+                                    <path d="M58 40 L68 40" fill="none" stroke="#8a7a6a" stroke-width="1.5" stroke-linecap="round"/>
+                                    
+                                    <!-- Ears -->
+                                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="url(#skin7)"/>
+                                    <ellipse cx="78" cy="28" rx="3" ry="5" fill="url(#skin7)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#1e272e"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#2d3436"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>HALL</h3>
+                            <div class="role">Security • Privacy</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="hall-task">Monitoring</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Security audit</span>
+                                    <span class="workflow-time">weekly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <!-- Water cooler area -->
@@ -1352,7 +1482,7 @@
             <!-- Office Dashboard -->
             <div class="office-dashboard">
                 <div class="dashboard-stat">
-                    <div class="value">6</div>
+                    <div class="value">7</div>
                     <div class="label">AGENTS ONLINE</div>
                 </div>
                 <div class="dashboard-stat">
@@ -1388,7 +1518,8 @@
             paul: ['Late notice', 'Payment plan', 'Calling tenant', 'Reviewing ledger', 'Final warning'],
             rock: ['Tracking macros', 'Logging workout', 'Heart rate check', 'CAN YOU SMELL IT?!', 'Step count'],
             folio: ['Syncing data', 'Processing leases', 'Vacancy update', 'Running report', 'Importing data'],
-            gamer: ['Tracking meta', 'Checking Reddit', 'Patch analysis', 'Finding exploits', 'Weekly briefing']
+            gamer: ['Tracking meta', 'Checking Reddit', 'Patch analysis', 'Finding exploits', 'Weekly briefing'],
+            hall: ['Monitoring', 'Scanning logs', 'Checking access', 'Audit complete', 'All clear']
         };
         
         setInterval(() => {
