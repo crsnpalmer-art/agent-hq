@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cpbama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 212, 255, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Robot Avatar */
+        .avatar-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .robot {
+            width: 200px;
+            height: 220px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        /* Head */
+        .head {
+            width: 160px;
+            height: 140px;
+            background: linear-gradient(180deg, #3a3a5c 0%, #2a2a4c 100%);
+            border-radius: 30px 30px 40px 40px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.4),
+                inset 0 -5px 20px rgba(0,0,0,0.3),
+                inset 0 5px 20px rgba(255,255,255,0.1);
+            animation: headBob 4s ease-in-out infinite;
+        }
+        
+        @keyframes headBob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Antenna */
+        .antenna {
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(180deg, #00d4ff, #0099cc);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .antenna::after {
+            content: '';
+            width: 14px;
+            height: 14px;
+            background: #00d4ff;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+            animation: antennaPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes antennaPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff, 0 0 80px #00d4ff;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+        
+        /* Face plate */
+        .face-plate {
+            width: 130px;
+            height: 90px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0d0d1a 100%);
+            border-radius: 20px;
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset 0 2px 10px rgba(0,212,255,0.2);
+            overflow: hidden;
+        }
+        
+        /* Eyes */
+        .eyes {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding-top: 20px;
+        }
+        
+        .eye {
+            width: 35px;
+            height: 35px;
+            background: #00d4ff;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0,212,255,0.5);
+            animation: eyeGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes eyeGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0,212,255,0.5);
+            }
+            50% { 
+                box-shadow: 0 0 30px #00d4ff, 0 0 50px rgba(0,212,255,0.7);
+            }
+        }
+        
+        .eye::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 4px;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            animation: eyeLook 5s ease-in-out infinite;
+        }
+        
+        @keyframes eyeLook {
+            0%, 40%, 60%, 100% { transform: translate(0, 0); }
+            45% { transform: translate(5px, 0); }
+            55% { transform: translate(-5px, 0); }
+        }
+        
+        /* Blink animation */
+        .eye-lid {
+            width: 100%;
+            height: 0%;
+            background: #1a1a2e;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: blink 4s ease-in-out infinite;
+        }
+        
+        @keyframes blink {
+            0%, 45%, 55%, 100% { height: 0%; }
+            48%, 52% { height: 100%; }
+        }
+        
+        /* Mouth */
+        .mouth {
+            width: 60px;
+            height: 8px;
+            margin: 15px auto 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mouth-bar {
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #00d4ff 10%, 
+                #00d4ff 90%, 
+                transparent 100%);
+            border-radius: 4px;
+            animation: mouthPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes mouthPulse {
+            0%, 100% { 
+                width: 60%;
+                margin-left: 20%;
+                opacity: 0.7;
+            }
+            50% { 
+                width: 100%;
+                margin-left: 0%;
+                opacity: 1;
+            }
+        }
+        
+        /* Ears */
+        .ear {
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(180deg, #4a4a6c, #3a3a5c);
+            position: absolute;
+            top: 50px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .ear.left { left: -10px; }
+        .ear.right { right: -10px; }
+        
+        .ear::after {
+            content: '';
+            width: 8px;
+            height: 20px;
+            background: #00d4ff;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: earGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes earGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; box-shadow: 0 0 10px #00d4ff; }
+        }
+        
+        /* Body hint */
+        .neck {
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(180deg, #3a3a5c, #2a2a4c);
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+            top: 140px;
+        }
+        
+        /* Name */
+        .name {
+            color: #00d4ff;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-top: 80px;
+            text-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.4);
+            animation: nameGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes nameGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(0,212,255,0.8), 0 0 40px rgba(0,212,255,0.4);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(0,212,255,1), 0 0 60px rgba(0,212,255,0.6), 0 0 80px rgba(0,212,255,0.3);
+            }
+        }
+        
+        .tagline {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        
+        /* Status indicator */
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% { 
+                box-shadow: 0 0 5px #00ff88;
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 15px #00ff88, 0 0 25px #00ff88;
+                transform: scale(1.2);
+            }
+        }
+        
+        /* Thinking animation */
+        .thinking {
+            display: none;
+            position: absolute;
+            top: -40px;
+            right: -20px;
+        }
+        
+        .thinking-dots {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .thinking-dot {
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: thinkingBounce 1.4s ease-in-out infinite;
+        }
+        
+        .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+        .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes thinkingBounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        /* Interaction */
+        .robot:hover .thinking {
+            display: block;
+        }
+        
+        .robot:hover .eye {
+            animation: eyeExcited 0.5s ease-in-out;
+        }
+        
+        @keyframes eyeExcited {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="avatar-container">
+            <div class="robot">
+                <div class="head">
+                    <div class="antenna"></div>
+                    <div class="ear left"></div>
+                    <div class="ear right"></div>
+                    <div class="face-plate">
+                        <div class="eyes">
+                            <div class="eye">
+                                <div class="eye-lid"></div>
+                            </div>
+                            <div class="eye">
+                                <div class="eye-lid"></div>
+                            </div>
+                        </div>
+                        <div class="mouth">
+                            <div class="mouth-bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="neck"></div>
+                <div class="thinking">
+                    <div class="thinking-dots">
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="name">cpbama</div>
+        <div class="tagline">Your AI Assistant</div>
+        
+        <div class="status">
+            <div class="status-dot"></div>
+            <span>Online & Ready</span>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 30;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Add click interaction
+        document.querySelector('.robot').addEventListener('click', () => {
+            const eyes = document.querySelectorAll('.eye');
+            eyes.forEach(eye => {
+                eye.style.background = '#ff6b6b';
+                eye.style.boxShadow = '0 0 20px #ff6b6b, 0 0 40px rgba(255,107,107,0.5)';
+                setTimeout(() => {
+                    eye.style.background = '#00d4ff';
+                    eye.style.boxShadow = '0 0 20px #00d4ff, 0 0 40px rgba(0,212,255,0.5)';
+                }, 300);
+            });
+        });
+        
+        // Random eye movements
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const pupils = document.querySelectorAll('.eye::after');
+                // Eyes will look around via CSS animation
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

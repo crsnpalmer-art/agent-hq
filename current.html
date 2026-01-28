@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carson's Team</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: #1a1a2e;
+            min-height: 100vh;
+            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Office Environment */
+        .office-building {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* Header - Company Sign */
+        .company-sign {
+            background: linear-gradient(180deg, #2a3a4a 0%, #1a2a3a 100%);
+            border-radius: 10px;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #00b4d8;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        
+        .company-sign h1 {
+            font-size: 28px;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        
+        .company-sign h1 span { color: #00b4d8; }
+        
+        .company-sign .clock {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+        
+        /* Office Floor */
+        .office-floor {
+            background: 
+                linear-gradient(180deg, #3a3a4a 0%, #2a2a3a 100%);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 
+                inset 0 2px 10px rgba(255,255,255,0.05),
+                0 10px 40px rgba(0,0,0,0.4);
+        }
+        
+        /* Ceiling lights */
+        .ceiling-lights {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 50px;
+        }
+        
+        .ceiling-light {
+            width: 120px;
+            height: 8px;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.3) 100%);
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(255,255,255,0.1);
+        }
+        
+        /* Floor pattern */
+        .floor-pattern {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    #4a4a5a 0px,
+                    #4a4a5a 50px,
+                    #454555 50px,
+                    #454555 100px
+                );
+            border-radius: 0 0 20px 20px;
+            opacity: 0.5;
+        }
+        
+        /* Office Layout */
+        .office-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Executive Corner Office */
+        .corner-office {
+            grid-column: 1 / -1;
+            background: linear-gradient(145deg, #252540 0%, #1e1e35 100%);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            border: 1px solid rgba(0,180,216,0.3);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Window effect for corner office */
+        .corner-office::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(180deg, #1a3050 0%, #0a1a30 50%, #1a2a40 100%);
+            border-radius: 5px;
+            border: 3px solid #3a4a5a;
+            box-shadow: inset 0 0 30px rgba(0,100,150,0.2);
+        }
+        
+        /* Window reflection */
+        .corner-office::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 90px;
+            height: 45px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            border-radius: 3px;
+        }
+        
+        /* Cubicle */
+        .cubicle {
+            background: linear-gradient(145deg, #252540 0%, #1e1e35 100%);
+            border-radius: 12px;
+            padding: 15px;
+            position: relative;
+            border: 1px solid rgba(100,100,150,0.2);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.05),
+                0 8px 25px rgba(0,0,0,0.25);
+        }
+        
+        /* Cubicle walls */
+        .cubicle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .cubicle.sarah::before { background: linear-gradient(90deg, #e91e8c, #c4187a); }
+        .cubicle.paul::before { background: linear-gradient(90deg, #f4a100, #d89000); }
+        .cubicle.rock::before { background: linear-gradient(90deg, #00c853, #00a040); }
+        .cubicle.gamer::before { background: linear-gradient(90deg, #9d4edd, #7b2cbf); }
+        .cubicle.hall::before { background: linear-gradient(90deg, #455a64, #37474f); }
+        .cubicle.folio::before { background: linear-gradient(90deg, #7c4dff, #6a3de8); }
+        
+        /* Cubicle divider */
+        .cubicle-divider {
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            width: 3px;
+            background: linear-gradient(180deg, #4a4a5a, #3a3a4a);
+            border-radius: 2px;
+        }
+        
+        .cubicle-divider.left { left: -12px; }
+        .cubicle-divider.right { right: -12px; }
+        
+        /* Office content layout */
+        .office-content {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .workspace { flex-shrink: 0; }
+        
+        .agent-info { flex: 1; }
+        .agent-info h2 { font-size: 20px; color: #00b4d8; letter-spacing: 2px; margin-bottom: 2px; }
+        .agent-info h3 { font-size: 14px; letter-spacing: 1px; margin-bottom: 2px; }
+        .cubicle.sarah .agent-info h3 { color: #e91e8c; }
+        .cubicle.paul .agent-info h3 { color: #f4a100; }
+        .cubicle.rock .agent-info h3 { color: #00c853; }
+        .cubicle.gamer .agent-info h3 { color: #9d4edd; }
+        .cubicle.hall .agent-info h3 { color: #78909c; }
+        .cubicle.folio .agent-info h3 { color: #7c4dff; }
+        .agent-info .role { color: rgba(255,255,255,0.4); font-size: 10px; }
+        
+        /* Workflow */
+        .workflow {
+            margin-top: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 8px 10px;
+            border-left: 3px solid #00b4d8;
+        }
+        .cubicle.sarah .workflow { border-color: #e91e8c; }
+        .cubicle.paul .workflow { border-color: #f4a100; }
+        .cubicle.rock .workflow { border-color: #00c853; }
+        .cubicle.gamer .workflow { border-color: #9d4edd; }
+        .cubicle.hall .workflow { border-color: #78909c; }
+        .cubicle.folio .workflow { border-color: #7c4dff; }
+        
+        .workflow-header {
+            font-size: 8px;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 6px;
+        }
+        
+        .workflow-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+            font-size: 10px;
+        }
+        
+        .workflow-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .workflow-dot.active {
+            background: #00c853;
+            box-shadow: 0 0 6px #00c853;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .workflow-dot.pending { background: #f4a100; opacity: 0.7; }
+        .workflow-dot.complete { background: #00b4d8; opacity: 0.5; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+        
+        .workflow-text { color: rgba(255,255,255,0.6); }
+        .workflow-text.active { color: #fff; }
+        .workflow-time { margin-left: auto; font-size: 8px; color: rgba(255,255,255,0.3); }
+        
+        /* Office decorations */
+        .plant {
+            position: absolute;
+            font-size: 24px;
+        }
+        
+        .water-cooler {
+            position: absolute;
+            bottom: 80px;
+            right: 30px;
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(180deg, #6af, #48f);
+            border-radius: 5px 5px 3px 3px;
+            border: 2px solid #3a4a5a;
+        }
+        
+        .water-cooler::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(180deg, #8cf, #6af);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        /* Stats bar - like office dashboard */
+        .office-dashboard {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(145deg, #252540 0%, #1e1e35 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(100,100,150,0.2);
+        }
+        
+        .dashboard-stat {
+            text-align: center;
+            padding: 0 15px;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dashboard-stat:last-child { border-right: none; }
+        
+        .dashboard-stat .value {
+            font-size: 24px;
+            font-weight: 300;
+            color: #00b4d8;
+        }
+        
+        .dashboard-stat .label {
+            font-size: 9px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+            margin-top: 3px;
+        }
+        
+        /* SVG animations */
+        .blink { animation: blink 4s ease-in-out infinite; }
+        @keyframes blink {
+            0%, 45%, 55%, 100% { transform: scaleY(1); }
+            48%, 52% { transform: scaleY(0.1); }
+        }
+        
+        .breathe { animation: breathe 3s ease-in-out infinite; }
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .typing { animation: typing 0.3s ease-in-out infinite alternate; }
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-2px); }
+        }
+        
+        .screen-flicker { animation: flicker 3s ease-in-out infinite; }
+        @keyframes rgb-cycle {
+            0% { fill: #9d4edd; }
+            33% { fill: #7b2cbf; }
+            66% { fill: #5a189a; }
+            100% { fill: #9d4edd; }
+        }
+        
+        .rgb-glow { animation: rgb-cycle 2s infinite; }
+        .rgb-keys rect { animation: rgb-cycle 1.5s infinite; }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 0.85; }
+            50% { opacity: 1; }
+        }
+        
+        /* === GROK'S ENHANCEMENTS === */
+        
+        /* 1. Enhanced breathing with staggered delays */
+        .cubicle:nth-child(1) .breathe { animation-delay: 0s; }
+        .cubicle:nth-child(2) .breathe { animation-delay: 0.8s; }
+        .cubicle:nth-child(3) .breathe { animation-delay: 1.6s; }
+        .cubicle:nth-child(4) .breathe { animation-delay: 2.4s; }
+        .cubicle:nth-child(5) .breathe { animation-delay: 3.2s; }
+        .cubicle:nth-child(6) .breathe { animation-delay: 4.0s; }
+        
+        /* 2. Typing ellipsis on active workflow items */
+        .workflow-text.active::after {
+            content: "";
+            animation: ellipsis 1.8s infinite;
+        }
+        @keyframes ellipsis {
+            0% { content: ""; }
+            25% { content: "."; }
+            50% { content: ".."; }
+            75% { content: "..."; }
+        }
+        
+        /* 3. Glow pulse on active workflow items */
+        .workflow-dot.active {
+            box-shadow: 0 0 8px currentColor;
+            animation: dot-pulse 2s infinite alternate;
+        }
+        @keyframes dot-pulse {
+            from { box-shadow: 0 0 4px currentColor, 0 0 8px currentColor; }
+            to { box-shadow: 0 0 8px currentColor, 0 0 16px currentColor; }
+        }
+        
+        /* 4. Workflow border glow */
+        .workflow {
+            animation: border-glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes border-glow {
+            from { box-shadow: inset 0 0 5px rgba(255,255,255,0.05); }
+            to { box-shadow: inset 0 0 15px rgba(255,255,255,0.1); }
+        }
+        
+        /* 5. KPI counters animate on load */
+        .dashboard-stat .value {
+            animation: count-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .dashboard-stat:nth-child(1) .value { animation-delay: 0.1s; }
+        .dashboard-stat:nth-child(2) .value { animation-delay: 0.2s; }
+        .dashboard-stat:nth-child(3) .value { animation-delay: 0.3s; }
+        .dashboard-stat:nth-child(4) .value { animation-delay: 0.4s; }
+        @keyframes count-pop {
+            0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        /* 6. Shimmer on pending workflow items */
+        .workflow-item:not(:first-child) .workflow-text {
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 4s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* 7. Micro-action animations for random triggers */
+        .micro-nod .breathe {
+            animation: nod 1.2s ease-in-out !important;
+        }
+        @keyframes nod {
+            0%, 100% { transform: rotate(0) translateY(0); }
+            40% { transform: rotate(-4deg) translateY(-2px); }
+            60% { transform: rotate(3deg) translateY(-1px); }
+        }
+        
+        .micro-sip .breathe {
+            animation: sip 1.5s ease-in-out !important;
+        }
+        @keyframes sip {
+            0%, 100% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-3px) scale(1.02) rotate(-5deg); }
+            50% { transform: translateY(-5px) scale(1.03) rotate(-8deg); }
+            70% { transform: translateY(-3px) scale(1.02) rotate(-5deg); }
+        }
+        
+        /* 8. Screen scanline effect */
+        .screen-flicker::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            animation: scanline 4s linear infinite;
+        }
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40px); }
+        }
+        
+        /* 9. Neon border pulse per agent color */
+        .cubicle::before {
+            animation: neon-pulse 3s ease-in-out infinite alternate;
+        }
+        @keyframes neon-pulse {
+            from { opacity: 0.8; filter: brightness(1); }
+            to { opacity: 1; filter: brightness(1.3); }
+        }
+        
+        /* 10. Reduced motion respect */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="office-building">
+        <!-- Company Sign -->
+        <header class="company-sign">
+            <h1><span>CARSON'S</span> TEAM</h1>
+            <div class="clock" id="clock"></div>
+        </header>
+        
+        <!-- Office Floor -->
+        <div class="office-floor">
+            <!-- Ceiling lights -->
+            <div class="ceiling-lights">
+                <div class="ceiling-light"></div>
+                <div class="ceiling-light"></div>
+                <div class="ceiling-light"></div>
+                <div class="ceiling-light"></div>
+            </div>
+            
+            <!-- Floor pattern -->
+            <div class="floor-pattern"></div>
+            
+            <!-- Office Layout -->
+            <div class="office-layout">
+                <!-- CPBAMA's Corner Office -->
+                <div class="corner-office">
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="220" height="140" viewBox="0 0 220 140">
+                                <defs>
+                                    <linearGradient id="skin1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f7e0cc"/>
+                                        <stop offset="50%" style="stop-color:#f0d0b8"/>
+                                        <stop offset="100%" style="stop-color:#e5c4a8"/>
+                                    </linearGradient>
+                                    <linearGradient id="hair1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4a3525"/>
+                                        <stop offset="100%" style="stop-color:#2a1a10"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Desk -->
+                                <rect x="10" y="102" width="180" height="8" rx="2" fill="#5a4535" stroke="#3a2520" stroke-width="1"/>
+                                <rect x="10" y="110" width="180" height="28" rx="2" fill="#4a3525"/>
+                                <rect x="130" y="115" width="50" height="18" rx="2" fill="#3a2a1a" stroke="#2a1a10" stroke-width="1"/>
+                                <circle cx="155" cy="124" r="2" fill="#6a5a4a"/>
+                                
+                                <!-- Monitor -->
+                                <rect x="60" y="40" width="80" height="55" rx="3" fill="#1a1a1a" stroke="#0a0a0a" stroke-width="2"/>
+                                <rect x="66" y="46" width="68" height="42" rx="2" fill="#0a1a2a" class="screen-flicker"/>
+                                <g fill="#00b4d8" opacity="0.8">
+                                    <rect x="72" y="52" width="40" height="3" rx="1"/>
+                                    <rect x="72" y="59" width="55" height="2" rx="1" opacity="0.6"/>
+                                    <rect x="72" y="65" width="45" height="2" rx="1" opacity="0.6"/>
+                                    <rect x="72" y="71" width="50" height="2" rx="1" opacity="0.6"/>
+                                    <rect x="72" y="77" width="30" height="2" rx="1" opacity="0.6"/>
+                                </g>
+                                <rect x="92" y="95" width="16" height="5" fill="#1a1a1a"/>
+                                <ellipse cx="100" cy="102" rx="20" ry="3" fill="#1a1a1a"/>
+                                
+                                <!-- Keyboard -->
+                                <rect x="70" y="108" width="60" height="15" rx="2" fill="#2a2a2a"/>
+                                
+                                <!-- Coffee -->
+                                <rect x="25" y="92" width="14" height="16" rx="2" fill="#e8e8e8"/>
+                                <ellipse cx="32" cy="94" rx="5" ry="2" fill="#3a1a0a"/>
+                                
+                                <!-- Nameplate -->
+                                <rect x="150" y="95" width="35" height="10" rx="2" fill="#1a1a1a"/>
+                                <text x="167" y="103" fill="#00b4d8" font-size="6" text-anchor="middle">CPBAMA</text>
+                                
+                                <!-- Character -->
+                                <g class="breathe">
+                                    <rect x="82" y="62" width="36" height="42" rx="5" fill="#2a4a5a"/>
+                                    <path d="M78 75 Q74 88 77 112 L123 112 Q126 88 122 75 Z" fill="#1a1a2e" stroke="#0f0f1a" stroke-width="1"/>
+                                    <path d="M88 75 L100 85 L112 75" fill="#1a1a2e"/>
+                                    <line x1="100" y1="82" x2="100" y2="108" stroke="#333" stroke-width="1.5"/>
+                                    
+                                    <path d="M78 82 Q65 92 68 110" fill="none" stroke="#1a1a2e" stroke-width="12" stroke-linecap="round"/>
+                                    <path d="M122 82 Q135 92 140 108" fill="none" stroke="#1a1a2e" stroke-width="12" stroke-linecap="round"/>
+                                    
+                                    <ellipse cx="80" cy="112" rx="8" ry="6" fill="url(#skin1)" class="typing"/>
+                                    <ellipse cx="142" cy="106" rx="7" ry="5" fill="url(#skin1)"/>
+                                    
+                                    <rect x="92" y="58" width="16" height="18" fill="url(#skin1)"/>
+                                    <ellipse cx="100" cy="40" rx="22" ry="26" fill="url(#skin1)"/>
+                                    
+                                    <path d="M80 32 Q84 12 100 8 Q116 12 120 32 Q115 20 100 16 Q85 20 80 32" fill="url(#hair1)"/>
+                                    <path d="M80 32 Q84 27 88 32" fill="url(#hair1)"/>
+                                    <path d="M120 32 Q116 27 112 32" fill="url(#hair1)"/>
+                                    
+                                    <!-- Eyebrows - thicker, more natural -->
+                                    <path d="M84 28 Q92 23 100 28" fill="none" stroke="#3a2518" stroke-width="2.8" stroke-linecap="round"/>
+                                    <path d="M100 28 Q108 23 116 28" fill="none" stroke="#3a2518" stroke-width="2.8" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes - more realistic with lids and depth -->
+                                    <g class="blink">
+                                        <!-- Eye sockets/shadows -->
+                                        <ellipse cx="92" cy="40" rx="9" ry="6" fill="#d8b8a0" opacity="0.4"/>
+                                        <ellipse cx="108" cy="40" rx="9" ry="6" fill="#d8b8a0" opacity="0.4"/>
+                                        <!-- Whites with slight gradient -->
+                                        <ellipse cx="92" cy="40" rx="7" ry="5" fill="white"/>
+                                        <ellipse cx="108" cy="40" rx="7" ry="5" fill="white"/>
+                                        <!-- Iris with gradient -->
+                                        <circle cx="93" cy="41" r="4.5" fill="#4a7040"/>
+                                        <circle cx="109" cy="41" r="4.5" fill="#4a7040"/>
+                                        <circle cx="93" cy="41" r="3.5" fill="#5a8050"/>
+                                        <circle cx="109" cy="41" r="3.5" fill="#5a8050"/>
+                                        <!-- Pupils -->
+                                        <circle cx="93" cy="41" r="2" fill="#0a0a0a"/>
+                                        <circle cx="109" cy="41" r="2" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="95" cy="39" r="1.8" fill="white" opacity="0.95"/>
+                                        <circle cx="111" cy="39" r="1.8" fill="white" opacity="0.95"/>
+                                        <circle cx="91" cy="42" r="0.8" fill="white" opacity="0.5"/>
+                                        <circle cx="107" cy="42" r="0.8" fill="white" opacity="0.5"/>
+                                        <!-- Upper eyelids -->
+                                        <path d="M85 38 Q92 34 99 38" fill="none" stroke="#c9a080" stroke-width="1.5"/>
+                                        <path d="M101 38 Q108 34 115 38" fill="none" stroke="#c9a080" stroke-width="1.5"/>
+                                        <!-- Lower lash line -->
+                                        <path d="M86 44 Q92 46 98 44" fill="none" stroke="#8a6a5a" stroke-width="0.8"/>
+                                        <path d="M102 44 Q108 46 114 44" fill="none" stroke="#8a6a5a" stroke-width="0.8"/>
+                                    </g>
+                                    
+                                    <!-- Nose - more defined with bridge and nostrils -->
+                                    <path d="M100 36 Q101 44 100 50" fill="none" stroke="#d4a890" stroke-width="1.8"/>
+                                    <path d="M96 52 Q100 56 104 52" fill="none" stroke="#c49880" stroke-width="1.5"/>
+                                    <ellipse cx="96" cy="53" rx="1.5" ry="1" fill="#c49880"/>
+                                    <ellipse cx="104" cy="53" rx="1.5" ry="1" fill="#c49880"/>
+                                    
+                                    <!-- Mouth - realistic lips -->
+                                    <path d="M92 60 Q100 58 108 60" fill="none" stroke="#b87070" stroke-width="1"/>
+                                    <path d="M94 60 Q100 64 106 60" fill="#c08080"/>
+                                    <path d="M94 60 Q100 58 106 60" fill="#d09090"/>
+                                    <path d="M98 60 L102 60" fill="none" stroke="#a06060" stroke-width="0.8"/>
+                                    
+                                    <!-- Cheek contours -->
+                                    <ellipse cx="82" cy="50" rx="4" ry="6" fill="#e8b8a0" opacity="0.3"/>
+                                    <ellipse cx="118" cy="50" rx="4" ry="6" fill="#e8b8a0" opacity="0.3"/>
+                                    
+                                    <!-- Ears - more detailed -->
+                                    <ellipse cx="78" cy="42" rx="4" ry="8" fill="url(#skin1)"/>
+                                    <ellipse cx="122" cy="42" rx="4" ry="8" fill="url(#skin1)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="5" y="95" width="190" height="45" fill="#4a3525"/>
+                                <rect x="5" y="95" width="190" height="8" fill="#5a4535"/>
+                                <rect x="70" y="100" width="60" height="15" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h2>CPBAMA</h2>
+                            <div class="role">Lead AI Agent • Executive Director</div>
+                            <div class="workflow">
+                                <div class="workflow-header">CURRENT WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="cpbama-task">Coordinating team</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Review metrics</span>
+                                    <span class="workflow-time">queued</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot complete"></div>
+                                    <span class="workflow-text">Morning sync ✓</span>
+                                    <span class="workflow-time">8:00am</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Office plant -->
+                    <div class="plant" style="bottom: 15px; left: 15px;">🪴</div>
+                </div>
+                
+                <!-- Sarah's Cubicle -->
+                <div class="cubicle sarah">
+                    <div class="cubicle-divider right"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#fce8dc"/>
+                                        <stop offset="100%" style="stop-color:#ecc8b8"/>
+                                    </linearGradient>
+                                    <linearGradient id="hair2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#5a3525"/>
+                                        <stop offset="100%" style="stop-color:#3a1a10"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#5a4535"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#4a3525"/>
+                                
+                                <rect x="35" y="28" width="55" height="38" rx="3" fill="#1a1a1a"/>
+                                <rect x="39" y="32" width="47" height="30" rx="2" fill="#2a1020" class="screen-flicker"/>
+                                <g fill="#e91e8c" opacity="0.7">
+                                    <rect x="44" y="37" width="35" height="2" rx="1"/>
+                                    <rect x="44" y="43" width="25" height="2" rx="1"/>
+                                    <rect x="44" y="49" width="30" height="2" rx="1"/>
+                                </g>
+                                <rect x="57" y="66" width="10" height="4" fill="#1a1a1a"/>
+                                <ellipse cx="62" cy="73" rx="14" ry="2.5" fill="#1a1a1a"/>
+                                
+                                <rect x="100" y="68" width="18" height="10" rx="2" fill="#333"/>
+                                
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                                
+                                <g class="breathe">
+                                    <rect x="48" y="46" width="28" height="32" rx="4" fill="#a01850"/>
+                                    <path d="M46 52 Q43 64 46 82 L78 82 Q81 64 78 52 Z" fill="#e91e8c"/>
+                                    <path d="M53 52 L62 60 L71 52" fill="#fce8dc"/>
+                                    
+                                    <path d="M46 58 Q36 68 40 80" fill="none" stroke="#e91e8c" stroke-width="8" stroke-linecap="round"/>
+                                    <path d="M78 58 Q88 68 95 78" fill="none" stroke="#e91e8c" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <ellipse cx="50" cy="82" rx="5" ry="4" fill="url(#skin2)" class="typing"/>
+                                    <ellipse cx="97" cy="76" rx="4" ry="3" fill="url(#skin2)"/>
+                                    
+                                    <rect x="56" y="42" width="12" height="12" fill="url(#skin2)"/>
+                                    <ellipse cx="62" cy="28" rx="16" ry="20" fill="url(#skin2)"/>
+                                    
+                                    <path d="M47 24 Q50 10 62 7 Q74 10 77 24 Q73 14 62 11 Q51 14 47 24" fill="url(#hair2)"/>
+                                    <path d="M47 24 Q44 35 47 44" fill="url(#hair2)"/>
+                                    <path d="M77 24 Q80 35 77 44" fill="url(#hair2)"/>
+                                    
+                                    <!-- Eyebrows - feminine arch -->
+                                    <path d="M51 21 Q56 18 61 21" fill="none" stroke="#5a4035" stroke-width="1.8" stroke-linecap="round"/>
+                                    <path d="M63 21 Q68 18 73 21" fill="none" stroke="#5a4035" stroke-width="1.8" stroke-linecap="round"/>
+                                    
+                                    <!-- Glasses -->
+                                    <rect x="51" y="24" rx="3" width="11" height="9" fill="none" stroke="#4a4a4a" stroke-width="1.5"/>
+                                    <rect x="62" y="24" rx="3" width="11" height="9" fill="none" stroke="#4a4a4a" stroke-width="1.5"/>
+                                    <path d="M62 27 L62 27" stroke="#4a4a4a" stroke-width="1.5"/>
+                                    <path d="M51 27 L48 26" stroke="#4a4a4a" stroke-width="1"/>
+                                    <path d="M73 27 L76 26" stroke="#4a4a4a" stroke-width="1"/>
+                                    
+                                    <g class="blink" style="animation-delay: 0.6s">
+                                        <!-- Eye sockets -->
+                                        <ellipse cx="56" cy="28" rx="5" ry="4" fill="#e8c8b8" opacity="0.3"/>
+                                        <ellipse cx="68" cy="28" rx="5" ry="4" fill="#e8c8b8" opacity="0.3"/>
+                                        <!-- Whites -->
+                                        <ellipse cx="56" cy="28" rx="4" ry="3.5" fill="white"/>
+                                        <ellipse cx="68" cy="28" rx="4" ry="3.5" fill="white"/>
+                                        <!-- Iris -->
+                                        <circle cx="56" cy="28.5" r="2.8" fill="#4a3020"/>
+                                        <circle cx="68" cy="28.5" r="2.8" fill="#4a3020"/>
+                                        <circle cx="56" cy="28.5" r="2" fill="#5a4030"/>
+                                        <circle cx="68" cy="28.5" r="2" fill="#5a4030"/>
+                                        <!-- Pupils -->
+                                        <circle cx="56" cy="28.5" r="1.2" fill="#0a0a0a"/>
+                                        <circle cx="68" cy="28.5" r="1.2" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="57.5" cy="27" r="1.2" fill="white" opacity="0.95"/>
+                                        <circle cx="69.5" cy="27" r="1.2" fill="white" opacity="0.95"/>
+                                        <!-- Eyelashes - feminine -->
+                                        <path d="M52 26 Q56 24 60 26" fill="none" stroke="#3a2a20" stroke-width="1.2"/>
+                                        <path d="M64 26 Q68 24 72 26" fill="none" stroke="#3a2a20" stroke-width="1.2"/>
+                                    </g>
+                                    
+                                    <!-- Nose - softer, feminine -->
+                                    <path d="M62 30 Q63 34 62 37" fill="none" stroke="#d8b0a0" stroke-width="1.2"/>
+                                    <path d="M60 38 Q62 40 64 38" fill="none" stroke="#c8a090" stroke-width="1"/>
+                                    
+                                    <!-- Lips - fuller, with lipstick -->
+                                    <path d="M58 42 Q62 40 66 42" fill="#d83060"/>
+                                    <path d="M58 42 Q62 45 66 42" fill="#c02050"/>
+                                    <path d="M60 42 L64 42" fill="none" stroke="#a01840" stroke-width="0.5"/>
+                                    <ellipse cx="62" cy="42" rx="4.5" ry="2.5" fill="none"/>
+                                    
+                                    <!-- Blush -->
+                                    <ellipse cx="50" cy="34" rx="3" ry="2" fill="#ffb0b0" opacity="0.3"/>
+                                    <ellipse cx="74" cy="34" rx="3" ry="2" fill="#ffb0b0" opacity="0.3"/>
+                                    
+                                    <circle cx="46" cy="30" r="2" fill="#ffd700"/>
+                                    <circle cx="78" cy="30" r="2" fill="#ffd700"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#3a2a1a"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#4a3525"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>SARAH</h3>
+                            <div class="role">Phone Agent • Leasing</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="sarah-task">On call</span>
+                                    <span class="workflow-time">2m</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Schedule tour</span>
+                                    <span class="workflow-time">next</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Paul's Cubicle -->
+                <div class="cubicle paul">
+                    <div class="cubicle-divider left"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f0d4bc"/>
+                                        <stop offset="100%" style="stop-color:#deb8a0"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#5a4535"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#4a3525"/>
+                                
+                                <rect x="35" y="28" width="55" height="38" rx="3" fill="#1a1a1a"/>
+                                <rect x="39" y="32" width="47" height="30" rx="2" fill="#2a1a08" class="screen-flicker"/>
+                                <g fill="#f4a100" opacity="0.7">
+                                    <rect x="44" y="37" width="35" height="2" rx="1"/>
+                                    <rect x="44" y="43" width="15" height="2" rx="1"/>
+                                    <rect x="62" y="43" width="15" height="2" rx="1" fill="#ff4444"/>
+                                    <rect x="44" y="49" width="15" height="2" rx="1"/>
+                                    <rect x="62" y="49" width="15" height="2" rx="1" fill="#ff4444"/>
+                                </g>
+                                <rect x="57" y="66" width="10" height="4" fill="#1a1a1a"/>
+                                <ellipse cx="62" cy="73" rx="14" ry="2.5" fill="#1a1a1a"/>
+                                
+                                <g>
+                                    <rect x="12" y="65" width="18" height="14" fill="#f8f8f0" stroke="#ddd" stroke-width="0.5"/>
+                                    <rect x="14" y="63" width="18" height="14" fill="#f8f8f0" stroke="#ddd" stroke-width="0.5"/>
+                                </g>
+                                
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                                
+                                <g class="breathe">
+                                    <rect x="44" y="42" width="36" height="36" rx="4" fill="#5a4535"/>
+                                    <ellipse cx="62" cy="65" rx="24" ry="18" fill="#f4a100" stroke="#d89000" stroke-width="1"/>
+                                    
+                                    <path d="M50 50 L51 82" stroke="#333" stroke-width="2.5"/>
+                                    <path d="M74 50 L73 82" stroke="#333" stroke-width="2.5"/>
+                                    
+                                    <path d="M42 60 Q32 70 36 82" fill="none" stroke="#f4a100" stroke-width="10" stroke-linecap="round"/>
+                                    <path d="M82 60 Q92 70 98 80" fill="none" stroke="#f4a100" stroke-width="10" stroke-linecap="round"/>
+                                    
+                                    <ellipse cx="46" cy="84" rx="6" ry="4" fill="url(#skin3)"/>
+                                    <ellipse cx="100" cy="78" rx="5" ry="4" fill="url(#skin3)"/>
+                                    
+                                    <rect x="54" y="38" width="16" height="10" fill="url(#skin3)"/>
+                                    <circle cx="62" cy="26" r="18" fill="url(#skin3)"/>
+                                    
+                                    <!-- Bald head shine -->
+                                    <ellipse cx="62" cy="14" rx="10" ry="5" fill="rgba(255,255,255,0.15)"/>
+                                    <path d="M48 17 Q62 8 76 17" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
+                                    
+                                    <!-- Eyebrows - expressive, furrowed -->
+                                    <path d="M48 21 Q54 18 60 22" fill="none" stroke="#5a5050" stroke-width="2.5" stroke-linecap="round"/>
+                                    <path d="M64 22 Q70 18 76 21" fill="none" stroke="#5a5050" stroke-width="2.5" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes - intense, expressive -->
+                                    <g class="blink" style="animation-delay: 1.2s">
+                                        <!-- Eye bags/shadows - tired look -->
+                                        <ellipse cx="54" cy="30" rx="6" ry="4" fill="#c8a090" opacity="0.4"/>
+                                        <ellipse cx="70" cy="30" rx="6" ry="4" fill="#c8a090" opacity="0.4"/>
+                                        <!-- Whites -->
+                                        <ellipse cx="54" cy="28" rx="5" ry="4" fill="white"/>
+                                        <ellipse cx="70" cy="28" rx="5" ry="4" fill="white"/>
+                                        <!-- Iris - hazel -->
+                                        <circle cx="55" cy="29" r="3" fill="#5a4530"/>
+                                        <circle cx="71" cy="29" r="3" fill="#5a4530"/>
+                                        <circle cx="55" cy="29" r="2.2" fill="#6a5040"/>
+                                        <circle cx="71" cy="29" r="2.2" fill="#6a5040"/>
+                                        <!-- Pupils -->
+                                        <circle cx="55" cy="29" r="1.3" fill="#0a0a0a"/>
+                                        <circle cx="71" cy="29" r="1.3" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="56.5" cy="27.5" r="1.2" fill="white" opacity="0.9"/>
+                                        <circle cx="72.5" cy="27.5" r="1.2" fill="white" opacity="0.9"/>
+                                        <!-- Upper lids - heavy -->
+                                        <path d="M49 26 Q54 24 59 27" fill="none" stroke="#b89888" stroke-width="1.5"/>
+                                        <path d="M65 27 Q70 24 75 26" fill="none" stroke="#b89888" stroke-width="1.5"/>
+                                        <!-- Crow's feet -->
+                                        <path d="M46 27 L48 29" stroke="#c0a090" stroke-width="0.8"/>
+                                        <path d="M78 27 L76 29" stroke="#c0a090" stroke-width="0.8"/>
+                                    </g>
+                                    
+                                    <!-- Nose - larger, distinctive -->
+                                    <ellipse cx="62" cy="35" rx="5" ry="4" fill="#d8b098"/>
+                                    <path d="M62 26 Q64 32 62 36" fill="none" stroke="#c09080" stroke-width="2"/>
+                                    <ellipse cx="59" cy="37" rx="1.5" ry="1" fill="#c09080"/>
+                                    <ellipse cx="65" cy="37" rx="1.5" ry="1" fill="#c09080"/>
+                                    
+                                    <!-- Mouth - expressive frown/smirk -->
+                                    <path d="M55 42 Q62 40 69 42" fill="#c09080"/>
+                                    <path d="M56 42 Q62 45 68 42" fill="#b08070"/>
+                                    <path d="M58 42 L66 42" fill="none" stroke="#906060" stroke-width="0.8"/>
+                                    
+                                    <!-- Nasolabial folds -->
+                                    <path d="M52 38 Q54 42 56 44" fill="none" stroke="#c8a898" stroke-width="1"/>
+                                    <path d="M72 38 Q70 42 68 44" fill="none" stroke="#c8a898" stroke-width="1"/>
+                                    
+                                    <ellipse cx="44" cy="28" rx="3.5" ry="6" fill="url(#skin3)"/>
+                                    <ellipse cx="80" cy="28" rx="3.5" ry="6" fill="url(#skin3)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#3a2a1a"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#4a3525"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>PAUL</h3>
+                            <div class="role">Collections • Delinquency</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="paul-task">Late notice</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Call Unit 305</span>
+                                    <span class="workflow-time">next</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- The Rock's Cubicle -->
+                <div class="cubicle rock">
+                    <div class="cubicle-divider right"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin4" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#b08050"/>
+                                        <stop offset="100%" style="stop-color:#8a6030"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#5a4535"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#4a3525"/>
+                                
+                                <rect x="35" y="28" width="55" height="38" rx="3" fill="#1a1a1a"/>
+                                <rect x="39" y="32" width="47" height="30" rx="2" fill="#0a2010" class="screen-flicker"/>
+                                <g fill="#00c853" opacity="0.8">
+                                    <rect x="44" y="37" width="30" height="2" rx="1"/>
+                                    <path d="M44 46 L50 46 L52 42 L54 50 L56 44 L58 46 L78 46" fill="none" stroke="#00c853" stroke-width="1.2"/>
+                                    <rect x="44" y="52" width="20" height="2" rx="1"/>
+                                </g>
+                                <rect x="57" y="66" width="10" height="4" fill="#1a1a1a"/>
+                                <ellipse cx="62" cy="73" rx="14" ry="2.5" fill="#1a1a1a"/>
+                                
+                                <rect x="100" y="65" width="14" height="15" rx="2" fill="#333"/>
+                                <rect x="102" y="70" width="10" height="8" rx="1" fill="#00c853" opacity="0.4"/>
+                                
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                                
+                                <g class="breathe">
+                                    <rect x="42" y="40" width="40" height="38" rx="4" fill="#2a4a3a"/>
+                                    <path d="M40 50 Q35 65 40 85 L84 85 Q89 65 84 50 Z" fill="#111"/>
+                                    
+                                    <ellipse cx="32" cy="62" rx="10" ry="15" fill="url(#skin4)"/>
+                                    <ellipse cx="92" cy="62" rx="10" ry="15" fill="url(#skin4)"/>
+                                    
+                                    <path d="M32 74 Q30 82 38 88" fill="none" stroke="url(#skin4)" stroke-width="8" stroke-linecap="round"/>
+                                    <path d="M92 74 Q94 82 100 86" fill="none" stroke="url(#skin4)" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <ellipse cx="48" cy="88" rx="6" ry="4" fill="#9a7040" class="typing"/>
+                                    <ellipse cx="102" cy="84" rx="5" ry="4" fill="#9a7040"/>
+                                    
+                                    <rect x="52" y="34" width="20" height="16" fill="url(#skin4)"/>
+                                    <ellipse cx="62" cy="22" rx="17" ry="18" fill="url(#skin4)"/>
+                                    
+                                    <!-- Bald head shine -->
+                                    <path d="M48 10 Q62 3 76 10" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="4"/>
+                                    <ellipse cx="62" cy="10" rx="8" ry="4" fill="rgba(255,255,255,0.1)"/>
+                                    
+                                    <!-- THE EYEBROW - iconic raised one -->
+                                    <path d="M49 14 Q54 12 60 16" fill="none" stroke="#2a2a2a" stroke-width="2.5" stroke-linecap="round"/>
+                                    <path d="M64 12 Q70 8 77 14" fill="none" stroke="#2a2a2a" stroke-width="2.5" stroke-linecap="round"/>
+                                    
+                                    <g class="blink" style="animation-delay: 0.8s">
+                                        <!-- Eye sockets - intense -->
+                                        <ellipse cx="54" cy="23" rx="6" ry="5" fill="#8a6040" opacity="0.3"/>
+                                        <ellipse cx="70" cy="21" rx="6" ry="5" fill="#8a6040" opacity="0.3"/>
+                                        <!-- Whites -->
+                                        <ellipse cx="54" cy="22" rx="5" ry="4.5" fill="white"/>
+                                        <ellipse cx="70" cy="20" rx="5" ry="4.5" fill="white"/>
+                                        <!-- Iris - dark brown -->
+                                        <circle cx="55" cy="23" r="3.5" fill="#2a1808"/>
+                                        <circle cx="71" cy="21" r="3.5" fill="#2a1808"/>
+                                        <circle cx="55" cy="23" r="2.5" fill="#3a2818"/>
+                                        <circle cx="71" cy="21" r="2.5" fill="#3a2818"/>
+                                        <!-- Pupils -->
+                                        <circle cx="55" cy="23" r="1.5" fill="#0a0a0a"/>
+                                        <circle cx="71" cy="21" r="1.5" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="57" cy="21" r="1.3" fill="white" opacity="0.95"/>
+                                        <circle cx="73" cy="19" r="1.3" fill="white" opacity="0.95"/>
+                                        <!-- Upper lids -->
+                                        <path d="M49 20 Q54 18 59 21" fill="none" stroke="#7a5030" stroke-width="1.5"/>
+                                        <path d="M65 18 Q70 16 75 20" fill="none" stroke="#7a5030" stroke-width="1.5"/>
+                                    </g>
+                                    
+                                    <!-- Nose - strong, defined -->
+                                    <path d="M62 22 Q64 28 62 32" fill="none" stroke="#7a5028" stroke-width="2"/>
+                                    <path d="M58 34 Q62 37 66 34" fill="none" stroke="#6a4020" stroke-width="1.5"/>
+                                    <ellipse cx="59" cy="34" rx="2" ry="1.2" fill="#6a4020"/>
+                                    <ellipse cx="65" cy="34" rx="2" ry="1.2" fill="#6a4020"/>
+                                    
+                                    <!-- Mouth - confident smirk -->
+                                    <path d="M55 38 Q62 36 69 38" fill="#7a5040"/>
+                                    <path d="M56 38 Q62 42 68 38" fill="#6a4030"/>
+                                    <path d="M58 38 L66 38" fill="none" stroke="#5a3020" stroke-width="0.8"/>
+                                    <!-- Smirk lift on one side -->
+                                    <path d="M68 38 Q70 37 71 38" fill="none" stroke="#6a4030" stroke-width="1"/>
+                                    
+                                    <!-- Strong jaw line -->
+                                    <path d="M45 30 Q48 40 55 42" fill="none" stroke="#9a7050" stroke-width="1"/>
+                                    <path d="M79 30 Q76 40 69 42" fill="none" stroke="#9a7050" stroke-width="1"/>
+                                    
+                                    <ellipse cx="45" cy="24" rx="3" ry="5" fill="url(#skin4)"/>
+                                    <ellipse cx="79" cy="24" rx="3" ry="5" fill="url(#skin4)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#3a2a1a"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#4a3525"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>THE ROCK</h3>
+                            <div class="role">Health Tracker • Wellness</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="rock-task">Tracking macros</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Log PULL day</span>
+                                    <span class="workflow-time">tomorrow</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Folio's Cubicle -->
+                <div class="cubicle folio">
+                    <div class="cubicle-divider left"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f5e0c8"/>
+                                        <stop offset="100%" style="stop-color:#e0c8a8"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#5a4535"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#4a3525"/>
+                                
+                                <!-- Dual monitors -->
+                                <rect x="18" y="32" width="40" height="28" rx="2" fill="#1a1a1a"/>
+                                <rect x="21" y="35" width="34" height="22" rx="1" fill="#1a0820" class="screen-flicker"/>
+                                <rect x="67" y="32" width="40" height="28" rx="2" fill="#1a1a1a"/>
+                                <rect x="70" y="35" width="34" height="22" rx="1" fill="#1a0820" class="screen-flicker"/>
+                                <g fill="#7c4dff" opacity="0.7">
+                                    <rect x="25" y="39" width="26" height="2" rx="1"/>
+                                    <rect x="25" y="44" width="20" height="2" rx="1"/>
+                                    <rect x="25" y="49" width="24" height="2" rx="1"/>
+                                    <rect x="74" y="39" width="26" height="2" rx="1"/>
+                                    <rect x="74" y="44" width="22" height="2" rx="1"/>
+                                    <rect x="74" y="49" width="28" height="2" rx="1"/>
+                                </g>
+                                <rect x="33" y="60" width="8" height="4" fill="#1a1a1a"/>
+                                <rect x="82" y="60" width="8" height="4" fill="#1a1a1a"/>
+                                <ellipse cx="37" cy="66" rx="10" ry="2" fill="#1a1a1a"/>
+                                <ellipse cx="86" cy="66" rx="10" ry="2" fill="#1a1a1a"/>
+                                
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                                
+                                <g class="breathe">
+                                    <rect x="46" y="46" width="32" height="32" rx="4" fill="#4a2a5a"/>
+                                    <path d="M44 52 Q40 66 44 85 L80 85 Q84 66 80 52 Z" fill="#7c4dff" stroke="#6a3de8" stroke-width="1"/>
+                                    <path d="M52 52 L62 62 L72 52" fill="white"/>
+                                    <path d="M60 58 L62 78 L64 58" fill="#c41e3a"/>
+                                    
+                                    <path d="M44 58 Q32 68 38 85" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                                    <path d="M80 58 Q92 68 98 82" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                                    
+                                    <ellipse cx="50" cy="86" rx="6" ry="4" fill="url(#skin5)" class="typing"/>
+                                    <ellipse cx="100" cy="80" rx="5" ry="4" fill="url(#skin5)"/>
+                                    
+                                    <rect x="56" y="40" width="12" height="13" fill="url(#skin5)"/>
+                                    <path d="M47 28 Q47 10 62 8 Q77 10 77 28 Q75 42 62 44 Q49 42 47 28" fill="url(#skin5)"/>
+                                    
+                                    <path d="M49 22 Q52 8 62 5 Q72 8 75 22 Q70 14 62 11 Q54 14 49 22" fill="#0a0a0a"/>
+                                    <path d="M49 22 Q52 19 55 22" fill="#0a0a0a"/>
+                                    <path d="M75 22 Q72 19 69 22" fill="#0a0a0a"/>
+                                    
+                                    <!-- Eyebrows -->
+                                    <path d="M52 19 Q57 16 62 19" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M62 19 Q67 16 72 19" fill="none" stroke="#0a0a0a" stroke-width="2" stroke-linecap="round"/>
+                                    
+                                    <!-- Glasses - modern frames -->
+                                    <rect x="51" y="22" rx="3" width="12" height="9" fill="rgba(200,220,255,0.15)" stroke="#333" stroke-width="1.5"/>
+                                    <rect x="63" y="22" rx="3" width="12" height="9" fill="rgba(200,220,255,0.15)" stroke="#333" stroke-width="1.5"/>
+                                    <path d="M63 25 L63 25" stroke="#333" stroke-width="1.5"/>
+                                    <path d="M51 25 L48 24" stroke="#333" stroke-width="1"/>
+                                    <path d="M75 25 L78 24" stroke="#333" stroke-width="1"/>
+                                    
+                                    <g class="blink" style="animation-delay: 1.5s">
+                                        <!-- Eye shadows -->
+                                        <ellipse cx="57" cy="27" rx="4" ry="4" fill="#d8c8b8" opacity="0.3"/>
+                                        <ellipse cx="69" cy="27" rx="4" ry="4" fill="#d8c8b8" opacity="0.3"/>
+                                        <!-- Whites -->
+                                        <ellipse cx="57" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <ellipse cx="69" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <!-- Iris - dark -->
+                                        <circle cx="57" cy="27" r="2.8" fill="#1a1410"/>
+                                        <circle cx="69" cy="27" r="2.8" fill="#1a1410"/>
+                                        <circle cx="57" cy="27" r="2" fill="#2a2420"/>
+                                        <circle cx="69" cy="27" r="2" fill="#2a2420"/>
+                                        <!-- Pupils -->
+                                        <circle cx="57" cy="27" r="1.2" fill="#0a0a0a"/>
+                                        <circle cx="69" cy="27" r="1.2" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="58.5" cy="25.5" r="1.2" fill="white" opacity="0.95"/>
+                                        <circle cx="70.5" cy="25.5" r="1.2" fill="white" opacity="0.95"/>
+                                        <!-- Upper lids -->
+                                        <path d="M53 24 Q57 22 61 24" fill="none" stroke="#c0a090" stroke-width="1"/>
+                                        <path d="M65 24 Q69 22 73 24" fill="none" stroke="#c0a090" stroke-width="1"/>
+                                    </g>
+                                    
+                                    <!-- Nose -->
+                                    <path d="M62 28 Q63 33 62 36" fill="none" stroke="#c8b098" stroke-width="1.5"/>
+                                    <path d="M60 37 Q62 39 64 37" fill="none" stroke="#b8a088" stroke-width="1"/>
+                                    
+                                    <!-- Mouth - slight smile -->
+                                    <path d="M58 41 Q62 39 66 41" fill="#c09080"/>
+                                    <path d="M58 41 Q62 43 66 41" fill="#b08070"/>
+                                    <path d="M60 41 L64 41" fill="none" stroke="#906060" stroke-width="0.6"/>
+                                    
+                                    <ellipse cx="47" cy="28" rx="3" ry="5" fill="url(#skin5)"/>
+                                    <ellipse cx="77" cy="28" rx="3" ry="5" fill="url(#skin5)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#3a2a1a"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#4a3525"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>FOLIO</h3>
+                            <div class="role">AppFolio Sync • Properties</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="folio-task">Syncing data</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Vacancy report</span>
+                                    <span class="workflow-time">next</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- The Gamer's Cubicle -->
+                <div class="cubicle gamer">
+                    <div class="cubicle-divider right"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin6" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f5d0c5"/>
+                                        <stop offset="100%" style="stop-color:#d4a898"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Desk -->
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#2a2035"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#1a1525"/>
+                                
+                                <!-- Gaming PC Tower with RGB -->
+                                <g class="gaming-pc">
+                                    <rect x="8" y="45" width="18" height="30" rx="2" fill="#1a1a1a"/>
+                                    <rect x="10" y="47" width="14" height="10" rx="1" fill="#0a0a0a"/>
+                                    <!-- RGB fans -->
+                                    <circle cx="17" cy="52" r="4" fill="none" stroke="#9d4edd" stroke-width="1" class="rgb-glow"/>
+                                    <circle cx="17" cy="52" r="2" fill="#9d4edd" opacity="0.5" class="rgb-glow"/>
+                                    <!-- RGB strip on PC -->
+                                    <rect x="10" y="60" width="14" height="2" fill="#7b2cbf" class="rgb-glow"/>
+                                    <rect x="10" y="65" width="14" height="2" fill="#5a189a" class="rgb-glow"/>
+                                    <!-- Power button -->
+                                    <circle cx="17" cy="72" r="1.5" fill="#00ff00"/>
+                                    <!-- Vents -->
+                                    <rect x="22" y="48" width="2" height="8" fill="#2a2a2a"/>
+                                </g>
+                                
+                                <!-- Energy Drink Can (Monster style) -->
+                                <g class="energy-drink">
+                                    <rect x="100" y="62" width="8" height="14" rx="2" fill="#0a0a0a"/>
+                                    <rect x="101" y="64" width="6" height="10" rx="1" fill="#00ff00"/>
+                                    <!-- M claw marks -->
+                                    <path d="M102 66 L104 72 L106 66" fill="none" stroke="#0a0a0a" stroke-width="1"/>
+                                    <!-- Can top -->
+                                    <ellipse cx="104" cy="62" rx="4" ry="1.5" fill="#1a1a1a"/>
+                                    <circle cx="104" cy="62" r="1" fill="#333"/>
+                                </g>
+                                
+                                <!-- Gaming Monitor with RGB -->
+                                <rect x="30" y="25" width="65" height="42" rx="3" fill="#1a1a1a"/>
+                                <rect x="34" y="29" width="57" height="34" rx="2" fill="#0a0a15" class="screen-flicker"/>
+                                <!-- Game content on screen -->
+                                <g fill="#9d4edd" opacity="0.9">
+                                    <rect x="40" y="35" width="25" height="3" rx="1"/>
+                                    <rect x="40" y="42" width="40" height="2" rx="1" fill="#7b2cbf"/>
+                                    <rect x="40" y="48" width="35" height="2" rx="1" fill="#5a189a"/>
+                                    <circle cx="75" cy="52" r="6" fill="none" stroke="#9d4edd" stroke-width="1.5"/>
+                                    <path d="M73 50 L77 52 L73 54 Z" fill="#9d4edd"/>
+                                </g>
+                                <rect x="57" y="67" width="10" height="4" fill="#1a1a1a"/>
+                                <ellipse cx="62" cy="73" rx="14" ry="2.5" fill="#1a1a1a"/>
+                                <!-- RGB strip on monitor -->
+                                <rect x="30" y="67" width="65" height="2" fill="#9d4edd" class="rgb-glow"/>
+                                
+                                <!-- Gaming keyboard with RGB -->
+                                <rect x="38" y="80" width="50" height="12" rx="2" fill="#2a2a2a"/>
+                                <rect x="40" y="82" width="46" height="8" rx="1" fill="#1a1a1a"/>
+                                <g class="rgb-keys">
+                                    <rect x="42" y="84" width="4" height="4" rx="0.5" fill="#9d4edd" opacity="0.8"/>
+                                    <rect x="48" y="84" width="4" height="4" rx="0.5" fill="#7b2cbf" opacity="0.8"/>
+                                    <rect x="54" y="84" width="4" height="4" rx="0.5" fill="#5a189a" opacity="0.8"/>
+                                    <rect x="60" y="84" width="4" height="4" rx="0.5" fill="#9d4edd" opacity="0.8"/>
+                                </g>
+                                
+                                <!-- Character with headphones -->
+                                <g class="breathe">
+                                    <!-- Body - gaming hoodie -->
+                                    <rect x="45" y="42" width="35" height="35" rx="4" fill="#2a2035"/>
+                                    <path d="M43 52 Q38 65 43 85 L82 85 Q87 65 82 52 Z" fill="#1a1525"/>
+                                    
+                                    <!-- Arms -->
+                                    <ellipse cx="35" cy="62" rx="9" ry="14" fill="url(#skin6)"/>
+                                    <ellipse cx="90" cy="62" rx="9" ry="14" fill="url(#skin6)"/>
+                                    
+                                    <!-- Hands on keyboard -->
+                                    <ellipse cx="50" cy="86" rx="6" ry="4" fill="#e8c4b8" class="typing"/>
+                                    <ellipse cx="75" cy="86" rx="6" ry="4" fill="#e8c4b8" class="typing"/>
+                                    
+                                    <!-- Neck and head -->
+                                    <rect x="55" y="36" width="15" height="12" fill="url(#skin6)"/>
+                                    <ellipse cx="62" cy="24" rx="16" ry="17" fill="url(#skin6)"/>
+                                    
+                                    <!-- Hair - messy gamer hair -->
+                                    <path d="M46 18 Q50 8 62 6 Q74 8 78 18 Q76 12 62 10 Q48 12 46 18" fill="#2a2a2a"/>
+                                    <path d="M48 16 Q52 12 56 14" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+                                    <path d="M68 14 Q72 12 76 16" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+                                    
+                                    <!-- Gaming headphones -->
+                                    <path d="M44 24 Q44 10 62 8 Q80 10 80 24" fill="none" stroke="#1a1a1a" stroke-width="4"/>
+                                    <ellipse cx="44" cy="26" rx="6" ry="8" fill="#2a2a2a"/>
+                                    <ellipse cx="80" cy="26" rx="6" ry="8" fill="#2a2a2a"/>
+                                    <ellipse cx="44" cy="26" rx="4" ry="6" fill="#9d4edd" opacity="0.6"/>
+                                    <ellipse cx="80" cy="26" rx="4" ry="6" fill="#9d4edd" opacity="0.6"/>
+                                    <!-- Mic boom -->
+                                    <path d="M44 30 Q40 35 38 40" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+                                    <ellipse cx="37" cy="42" rx="3" ry="2" fill="#2a2a2a"/>
+                                    
+                                    <!-- Eyebrows - focused/concentrated -->
+                                    <path d="M50 18 Q55 15 60 19" fill="none" stroke="#2a2a2a" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M64 19 Q69 15 74 18" fill="none" stroke="#2a2a2a" stroke-width="2" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes - intense gamer focus -->
+                                    <g class="blink" style="animation-delay: 1.2s">
+                                        <!-- Screen glow reflection on face -->
+                                        <ellipse cx="55" cy="25" rx="6" ry="5" fill="#9d4edd" opacity="0.08"/>
+                                        <ellipse cx="69" cy="25" rx="6" ry="5" fill="#9d4edd" opacity="0.08"/>
+                                        <!-- Eye shadows -->
+                                        <ellipse cx="55" cy="25" rx="5" ry="4" fill="#d0b0a0" opacity="0.3"/>
+                                        <ellipse cx="69" cy="25" rx="5" ry="4" fill="#d0b0a0" opacity="0.3"/>
+                                        <!-- Whites -->
+                                        <ellipse cx="55" cy="24" rx="4.5" ry="4" fill="white"/>
+                                        <ellipse cx="69" cy="24" rx="4.5" ry="4" fill="white"/>
+                                        <!-- Iris - blue-grey gamer eyes -->
+                                        <circle cx="56" cy="25" r="3" fill="#3a4858"/>
+                                        <circle cx="70" cy="25" r="3" fill="#3a4858"/>
+                                        <circle cx="56" cy="25" r="2.2" fill="#4a5868"/>
+                                        <circle cx="70" cy="25" r="2.2" fill="#4a5868"/>
+                                        <!-- Pupils - dilated from screen -->
+                                        <circle cx="56" cy="25" r="1.5" fill="#0a0a0a"/>
+                                        <circle cx="70" cy="25" r="1.5" fill="#0a0a0a"/>
+                                        <!-- Highlights -->
+                                        <circle cx="57.5" cy="23.5" r="1.3" fill="white" opacity="0.95"/>
+                                        <circle cx="71.5" cy="23.5" r="1.3" fill="white" opacity="0.95"/>
+                                        <!-- Screen reflection in eyes -->
+                                        <circle cx="54.5" cy="26" r="0.6" fill="#9d4edd" opacity="0.4"/>
+                                        <circle cx="68.5" cy="26" r="0.6" fill="#9d4edd" opacity="0.4"/>
+                                        <!-- Upper lids -->
+                                        <path d="M50 22 Q55 20 60 23" fill="none" stroke="#c0a090" stroke-width="1.2"/>
+                                        <path d="M64 23 Q69 20 74 22" fill="none" stroke="#c0a090" stroke-width="1.2"/>
+                                    </g>
+                                    
+                                    <!-- Nose -->
+                                    <path d="M62 24 Q63 29 62 32" fill="none" stroke="#c8a898" stroke-width="1.5"/>
+                                    <path d="M60 33 Q62 35 64 33" fill="none" stroke="#b8988a" stroke-width="1"/>
+                                    <ellipse cx="60" cy="33" rx="1.2" ry="0.8" fill="#b8988a"/>
+                                    <ellipse cx="64" cy="33" rx="1.2" ry="0.8" fill="#b8988a"/>
+                                    
+                                    <!-- Mouth - slight gamer smirk -->
+                                    <path d="M57 37 Q62 35 67 37" fill="#c09080"/>
+                                    <path d="M58 37 Q62 39 66 37" fill="#b08070"/>
+                                    <path d="M60 37 L64 37" fill="none" stroke="#906060" stroke-width="0.6"/>
+                                    
+                                    <!-- Stubble shadow -->
+                                    <ellipse cx="62" cy="40" rx="8" ry="4" fill="#c8b8a8" opacity="0.15"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#1a1525"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#2a2035"/>
+                                <rect x="38" y="76" width="50" height="12" rx="2" fill="#2a2a2a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>THE GAMER</h3>
+                            <div class="role">Gaming Intel • Meta Tracker</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="gamer-task">Tracking meta</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Weekly briefing</span>
+                                    <span class="workflow-time">sunday</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hall's Cubicle -->
+                <div class="cubicle hall">
+                    <div class="cubicle-divider left"></div>
+                    <div class="office-content">
+                        <div class="workspace">
+                            <svg width="130" height="105" viewBox="0 0 130 105">
+                                <defs>
+                                    <linearGradient id="skin7" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#e8d8c8"/>
+                                        <stop offset="100%" style="stop-color:#d4c4b4"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Desk - darker, more serious -->
+                                <rect x="5" y="75" width="120" height="7" rx="2" fill="#2d3436"/>
+                                <rect x="5" y="82" width="120" height="22" rx="2" fill="#1e272e"/>
+                                
+                                <!-- Dual Security Monitors -->
+                                <rect x="20" y="30" width="40" height="32" rx="2" fill="#1a1a1a"/>
+                                <rect x="23" y="33" width="34" height="26" rx="1" fill="#0a1510" class="screen-flicker"/>
+                                <!-- Terminal/logs on screen -->
+                                <g fill="#78909c" opacity="0.8">
+                                    <rect x="26" y="36" width="20" height="1.5" rx="0.5"/>
+                                    <rect x="26" y="40" width="28" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="44" width="24" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="48" width="26" height="1.5" rx="0.5" opacity="0.6"/>
+                                    <rect x="26" y="52" width="18" height="1.5" rx="0.5" fill="#4caf50"/>
+                                </g>
+                                <rect x="36" y="62" width="8" height="3" fill="#1a1a1a"/>
+                                
+                                <rect x="65" y="30" width="40" height="32" rx="2" fill="#1a1a1a"/>
+                                <rect x="68" y="33" width="34" height="26" rx="1" fill="#0a1015" class="screen-flicker"/>
+                                <!-- Network diagram on screen -->
+                                <g fill="#78909c" opacity="0.7">
+                                    <circle cx="77" cy="42" r="3" fill="none" stroke="#4caf50" stroke-width="1"/>
+                                    <circle cx="92" cy="42" r="3" fill="none" stroke="#78909c" stroke-width="1"/>
+                                    <circle cx="85" cy="52" r="3" fill="none" stroke="#78909c" stroke-width="1"/>
+                                    <line x1="79" y1="44" x2="83" y2="50" stroke="#455a64" stroke-width="0.8"/>
+                                    <line x1="90" y1="44" x2="87" y2="50" stroke="#455a64" stroke-width="0.8"/>
+                                </g>
+                                <rect x="81" y="62" width="8" height="3" fill="#1a1a1a"/>
+                                
+                                <!-- Minimal keyboard -->
+                                <rect x="42" y="80" width="42" height="10" rx="2" fill="#1a1a1a"/>
+                                
+                                <!-- Character - older, stern, balding -->
+                                <g class="breathe">
+                                    <!-- Body - dark jacket -->
+                                    <rect x="48" y="44" width="30" height="32" rx="4" fill="#1e272e"/>
+                                    <path d="M46 52 Q42 64 46 82 L80 82 Q84 64 80 52 Z" fill="#2d3436"/>
+                                    <!-- Dark collar -->
+                                    <path d="M54 52 L63 58 L72 52" fill="#1a1a1a"/>
+                                    
+                                    <!-- Arms -->
+                                    <ellipse cx="38" cy="62" rx="8" ry="12" fill="url(#skin7)"/>
+                                    <ellipse cx="88" cy="62" rx="8" ry="12" fill="url(#skin7)"/>
+                                    
+                                    <!-- Hands -->
+                                    <ellipse cx="52" cy="84" rx="5" ry="3.5" fill="#d8c8b8" class="typing"/>
+                                    <ellipse cx="74" cy="84" rx="5" ry="3.5" fill="#d8c8b8"/>
+                                    
+                                    <!-- Neck and head -->
+                                    <rect x="56" y="38" width="14" height="12" fill="url(#skin7)"/>
+                                    <ellipse cx="63" cy="26" rx="15" ry="16" fill="url(#skin7)"/>
+                                    
+                                    <!-- Receding hairline - grey -->
+                                    <path d="M50 20 Q55 12 63 10 Q71 12 76 20 Q72 16 63 14 Q54 16 50 20" fill="#6b6b6b"/>
+                                    <path d="M48 22 Q50 20 52 22" fill="#6b6b6b"/>
+                                    <path d="M74 22 Q76 20 78 22" fill="#6b6b6b"/>
+                                    
+                                    <!-- Eyebrows - stern -->
+                                    <path d="M52 20 Q57 17 62 21" fill="none" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M64 21 Q69 17 74 20" fill="none" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round"/>
+                                    
+                                    <!-- Eyes - sharp, observant -->
+                                    <g class="blink" style="animation-delay: 2s">
+                                        <ellipse cx="56" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <ellipse cx="70" cy="26" rx="4" ry="3.5" fill="white"/>
+                                        <circle cx="56" cy="27" r="2.5" fill="#37474f"/>
+                                        <circle cx="70" cy="27" r="2.5" fill="#37474f"/>
+                                        <circle cx="56" cy="27" r="1.5" fill="#1a1a1a"/>
+                                        <circle cx="70" cy="27" r="1.5" fill="#1a1a1a"/>
+                                        <circle cx="57.5" cy="25.5" r="1" fill="white" opacity="0.9"/>
+                                        <circle cx="71.5" cy="25.5" r="1" fill="white" opacity="0.9"/>
+                                        <!-- Slight bags under eyes -->
+                                        <path d="M52 29 Q56 30 60 29" fill="none" stroke="#c4b4a4" stroke-width="0.8"/>
+                                        <path d="M66 29 Q70 30 74 29" fill="none" stroke="#c4b4a4" stroke-width="0.8"/>
+                                    </g>
+                                    
+                                    <!-- Nose -->
+                                    <path d="M63 26 Q64 30 63 34" fill="none" stroke="#c4b4a4" stroke-width="1.5"/>
+                                    <path d="M60 35 Q63 37 66 35" fill="none" stroke="#b4a494" stroke-width="1"/>
+                                    
+                                    <!-- Mouth - thin, serious line -->
+                                    <path d="M58 40 L68 40" fill="none" stroke="#8a7a6a" stroke-width="1.5" stroke-linecap="round"/>
+                                    
+                                    <!-- Ears -->
+                                    <ellipse cx="48" cy="28" rx="3" ry="5" fill="url(#skin7)"/>
+                                    <ellipse cx="78" cy="28" rx="3" ry="5" fill="url(#skin7)"/>
+                                </g>
+                                
+                                <!-- Desk Front (covers lower body) -->
+                                <rect x="2" y="72" width="126" height="33" fill="#1e272e"/>
+                                <rect x="2" y="72" width="126" height="6" fill="#2d3436"/>
+                                <rect x="42" y="76" width="42" height="10" rx="2" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                        <div class="agent-info">
+                            <h3>HALL</h3>
+                            <div class="role">Security • Privacy</div>
+                            <div class="workflow">
+                                <div class="workflow-header">WORKFLOW</div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot active"></div>
+                                    <span class="workflow-text active" id="hall-task">Monitoring</span>
+                                    <span class="workflow-time">now</span>
+                                </div>
+                                <div class="workflow-item">
+                                    <div class="workflow-dot pending"></div>
+                                    <span class="workflow-text">Security audit</span>
+                                    <span class="workflow-time">weekly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Water cooler area -->
+            <div class="water-cooler"></div>
+            
+            <!-- Office Dashboard -->
+            <div class="office-dashboard">
+                <div class="dashboard-stat">
+                    <div class="value">7</div>
+                    <div class="label">AGENTS ONLINE</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="value" id="tasks">47</div>
+                    <div class="label">TASKS TODAY</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="value">25</div>
+                    <div class="label">CALLS HANDLED</div>
+                </div>
+                <div class="dashboard-stat">
+                    <div class="value">100%</div>
+                    <div class="label">SUCCESS RATE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleString('en-US', {
+                weekday: 'short', month: 'short', day: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            });
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+        
+        const tasks = {
+            cpbama: ['Coordinating team', 'Reviewing metrics', 'Dispatching tasks', 'Analyzing data', 'Running diagnostics'],
+            sarah: ['On call', 'Scheduling tour', 'Following up', 'Sending docs', 'Updating CRM'],
+            paul: ['Late notice', 'Payment plan', 'Calling tenant', 'Reviewing ledger', 'Final warning'],
+            rock: ['Tracking macros', 'Logging workout', 'Heart rate check', 'CAN YOU SMELL IT?!', 'Step count'],
+            folio: ['Syncing data', 'Processing leases', 'Vacancy update', 'Running report', 'Importing data'],
+            gamer: ['Tracking meta', 'Checking Reddit', 'Patch analysis', 'Finding exploits', 'Weekly briefing'],
+            hall: ['Monitoring', 'Scanning logs', 'Checking access', 'Audit complete', 'All clear']
+        };
+        
+        setInterval(() => {
+            Object.keys(tasks).forEach(agent => {
+                if (Math.random() > 0.6) {
+                    const el = document.getElementById(agent + '-task');
+                    if (el) el.textContent = tasks[agent][Math.floor(Math.random() * tasks[agent].length)];
+                }
+            });
+        }, 5000);
+        
+        let taskCount = 47;
+        setInterval(() => {
+            if (Math.random() > 0.6) { taskCount++; document.getElementById('tasks').textContent = taskCount; }
+        }, 8000);
+        
+        // Random micro-actions (nods, sips, stretches)
+        const microActions = ['micro-nod', 'micro-sip'];
+        document.querySelectorAll('.cubicle').forEach(cubicle => {
+            const triggerMicroAction = () => {
+                const action = microActions[Math.floor(Math.random() * microActions.length)];
+                cubicle.classList.add(action);
+                setTimeout(() => cubicle.classList.remove(action), 1500);
+            };
+            // Random interval between 10-30 seconds per agent
+            setInterval(triggerMicroAction, Math.random() * 20000 + 10000);
+            // Initial random delay so they don't all start together
+            setTimeout(triggerMicroAction, Math.random() * 15000);
+        });
+        
+        // Animate KPI values counting up on load
+        document.querySelectorAll('.dashboard-stat .value').forEach(el => {
+            const finalValue = el.textContent;
+            const isPercent = finalValue.includes('%');
+            const num = parseInt(finalValue);
+            if (!isNaN(num)) {
+                let current = 0;
+                const step = Math.ceil(num / 30);
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= num) {
+                        current = num;
+                        clearInterval(interval);
+                    }
+                    el.textContent = current + (isPercent ? '%' : '');
+                }, 40);
+            }
+        });
+    </script>
+</body>
+</html>
