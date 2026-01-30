@@ -80,6 +80,68 @@
             box-shadow: 0 0 30px rgba(255,255,255,0.2), 0 0 60px rgba(255,255,255,0.1);
         }
         
+        /* === KAE'S ENHANCEMENT #11 - ATMOSPHERIC PARTICLES === */
+        
+        /* Light beam container */
+        .light-beams {
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            bottom: 60px;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
+        }
+        
+        /* Individual particle */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+            animation: particleFloat var(--float-duration) linear infinite;
+            animation-delay: var(--float-delay);
+            opacity: 0;
+        }
+        
+        /* Particle floating animation */
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(var(--drift-x));
+            }
+            10% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.4;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(var(--float-distance)) translateX(calc(var(--drift-x) + var(--drift-offset)));
+            }
+        }
+        
+        /* Particle shimmer effect */
+        @keyframes particleShimmer {
+            0%, 100% {
+                box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+            }
+        }
+        
+        .particle.shimmer {
+            animation: 
+                particleFloat var(--float-duration) linear infinite,
+                particleShimmer 2s ease-in-out infinite;
+            animation-delay: var(--float-delay);
+        }
+        
         /* Floor pattern */
         .floor-pattern {
             position: absolute;
@@ -577,6 +639,97 @@
         .notification-bubble .emoji {
             margin-right: 4px;
         }
+        
+        /* === NEW: Interactive Hover Magic === */
+        .cubicle, .corner-office {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .cubicle:hover, .corner-office:hover {
+            transform: scale(1.03);
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                0 12px 40px rgba(0,180,216,0.3),
+                0 0 30px rgba(0,180,216,0.2);
+            border-color: rgba(0,180,216,0.6);
+        }
+        
+        .cubicle.sarah:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(233,30,140,0.3), 0 0 30px rgba(233,30,140,0.2); }
+        .cubicle.paul:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(244,161,0,0.3), 0 0 30px rgba(244,161,0,0.2); }
+        .cubicle.rock:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(0,200,83,0.3), 0 0 30px rgba(0,200,83,0.2); }
+        .cubicle.gamer:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(157,78,221,0.3), 0 0 30px rgba(157,78,221,0.2); }
+        .cubicle.hall:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(120,144,156,0.3), 0 0 30px rgba(120,144,156,0.2); }
+        .cubicle.folio:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 12px 40px rgba(124,77,255,0.3), 0 0 30px rgba(124,77,255,0.2); }
+        
+        .cubicle:hover .agent-info h2,
+        .corner-office:hover .agent-info h2 {
+            text-shadow: 0 0 15px currentColor;
+        }
+        
+        .cubicle:hover .workflow,
+        .corner-office:hover .workflow {
+            background: rgba(0,0,0,0.5);
+            border-left-width: 4px;
+        }
+        
+        /* === NEW: Agent Chat Bubbles === */
+        .chat-bubble {
+            position: absolute;
+            background: linear-gradient(145deg, rgba(37,37,64,0.95) 0%, rgba(30,30,53,0.95) 100%);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            z-index: 100;
+            pointer-events: none;
+            max-width: 200px;
+            border: 1px solid;
+            animation: bubbleFloat 3s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .chat-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
+            width: 12px;
+            height: 12px;
+            background: inherit;
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            border-color: inherit;
+            transform: rotate(45deg);
+        }
+        
+        .chat-bubble.cpbama { border-color: #00b4d8; }
+        .chat-bubble.sarah { border-color: #e91e8c; }
+        .chat-bubble.paul { border-color: #f4a100; }
+        .chat-bubble.rock { border-color: #00c853; }
+        .chat-bubble.gamer { border-color: #9d4edd; }
+        .chat-bubble.hall { border-color: #78909c; }
+        .chat-bubble.folio { border-color: #7c4dff; }
+        
+        @keyframes bubbleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            85% {
+                opacity: 1;
+                transform: translateY(-5px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -596,6 +749,9 @@
                 <div class="ceiling-light"></div>
                 <div class="ceiling-light"></div>
             </div>
+            
+            <!-- Light beams with particles -->
+            <div class="light-beams" id="lightBeams"></div>
             
             <!-- Floor pattern -->
             <div class="floor-pattern"></div>
@@ -1674,6 +1830,163 @@
                     el.textContent = current + (isPercent ? '%' : '');
                 }, 40);
             }
+        });
+        
+        // === NEW: Agent Chat Bubbles with Personality ===
+        const agentChatter = {
+            cpbama: [
+                "Team's looking sharp today 💼",
+                "All systems running smooth",
+                "Got eyes on everything 👀",
+                "Dashboard looking good",
+                "Keep crushing it, team"
+            ],
+            sarah: [
+                "Just scheduled 3 tours! 🏠",
+                "Tour at 2pm - First & Main",
+                "This prospect sounds perfect",
+                "Following up on applications",
+                "Another lease signed! ✨"
+            ],
+            paul: [
+                "Payment plan approved 📋",
+                "Running collections report",
+                "Ledger's balancing nicely",
+                "3 late notices sent",
+                "They finally paid! 💰"
+            ],
+            rock: [
+                "CAN YOU SMELL WHAT THE ROCK IS COOKING?! 🔥",
+                "Heart rate: 165 BPM 💪",
+                "Leg day = BEST DAY",
+                "Protein shake time!",
+                "10k steps CRUSHED"
+            ],
+            gamer: [
+                "New patch dropped 🎮",
+                "Meta shift incoming",
+                "Found a sick exploit",
+                "Reddit's going crazy",
+                "Time to climb ranked"
+            ],
+            hall: [
+                "All access logs clean 🔒",
+                "Security audit complete",
+                "No anomalies detected",
+                "Encrypted and secure",
+                "Privacy protocols active"
+            ],
+            folio: [
+                "AppFolio sync complete ✓",
+                "Processing 15 leases",
+                "Vacancy report updated",
+                "Import successful",
+                "Data's looking clean"
+            ]
+        };
+        
+        function spawnChatBubble(agent) {
+            const messages = agentChatter[agent];
+            if (!messages) return;
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            const cubicle = document.querySelector(`.cubicle.${agent}, .corner-office`);
+            if (!cubicle) return;
+            
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${agent}`;
+            bubble.textContent = message;
+            
+            const rect = cubicle.getBoundingClientRect();
+            bubble.style.position = 'fixed';
+            bubble.style.left = `${rect.left + rect.width / 2 - 100}px`;
+            bubble.style.top = `${rect.top - 50}px`;
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 3000);
+        }
+        
+        // Spawn random chat bubbles every 8-15 seconds
+        function randomChatter() {
+            const agents = Object.keys(agentChatter);
+            const randomAgent = agents[Math.floor(Math.random() * agents.length)];
+            spawnChatBubble(randomAgent);
+            
+            // Schedule next bubble
+            setTimeout(randomChatter, Math.random() * 7000 + 8000);
+        }
+        
+        // Start the chatter after a brief delay
+        setTimeout(randomChatter, 3000);
+        
+        // === KAE'S ENHANCEMENT #11 - ATMOSPHERIC PARTICLE SYSTEM ===
+        
+        function createParticles() {
+            const beamContainer = document.getElementById('lightBeams');
+            if (!beamContainer) return;
+            
+            const containerHeight = beamContainer.offsetHeight;
+            const containerWidth = beamContainer.offsetWidth;
+            
+            // Create 60 particles distributed across the office
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random position across the width
+                const x = Math.random() * containerWidth;
+                
+                // Random float duration (15-35 seconds for slow, dreamy movement)
+                const duration = 15 + Math.random() * 20;
+                
+                // Random delay (0-20 seconds so they start at different times)
+                const delay = Math.random() * 20;
+                
+                // Random horizontal drift
+                const driftX = (Math.random() - 0.5) * 50; // -25px to +25px
+                const driftOffset = (Math.random() - 0.5) * 100; // Additional drift during fall
+                
+                // Some particles shimmer
+                if (Math.random() < 0.3) {
+                    particle.classList.add('shimmer');
+                }
+                
+                // Set CSS variables for animation
+                particle.style.left = `${x}px`;
+                particle.style.setProperty('--float-duration', `${duration}s`);
+                particle.style.setProperty('--float-delay', `${delay}s`);
+                particle.style.setProperty('--float-distance', `${containerHeight}px`);
+                particle.style.setProperty('--drift-x', `${driftX}px`);
+                particle.style.setProperty('--drift-offset', `${driftOffset}px`);
+                
+                // Vary particle size slightly
+                const size = 1.5 + Math.random() * 1.5; // 1.5px to 3px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Vary opacity
+                const opacity = 0.2 + Math.random() * 0.4; // 0.2 to 0.6
+                particle.style.setProperty('opacity', opacity);
+                
+                beamContainer.appendChild(particle);
+            }
+        }
+        
+        // Create particles when page loads
+        createParticles();
+        
+        // Recreate particles on window resize to maintain proper distribution
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const beamContainer = document.getElementById('lightBeams');
+                if (beamContainer) {
+                    beamContainer.innerHTML = '';
+                    createParticles();
+                }
+            }, 500);
         });
     </script>
 </body>
